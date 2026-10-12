@@ -1,0 +1,41 @@
+[33mcommit 4fd7e82f318ca48ade954d3a4de73f51afb16296[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev-satish[m[33m, [m[1;31morigin/dev-satish[m[33m)[m
+Author: Satish1104 <jawlekarsatish@gmail.com>
+Date:   Tue Feb 10 17:40:36 2026 +0530
+
+    Profile edit update of Employee
+
+[33mcommit af0f40d884a0e9dd58383d8c298ea5c6e5102ae9[m
+Merge: 5010439 09a2677
+Author: NaineshIndait1812 <163850475+NaineshIndait1812@users.noreply.github.com>
+Date:   Thu Feb 5 17:25:03 2026 +0530
+
+    Merge pull request #2 from NaineshIndait1812/dev-nainesh
+    
+    Add getter methods for Employee fields and update security configuration
+
+[33mcommit 09a2677733213cd3ced5ca2a49b9bc6e222e0172[m[33m ([m[1;31morigin/dev-nainesh[m[33m)[m
+Author: NaineshIndait1812 <naineshindait18@gmail.com>
+Date:   Thu Feb 5 17:23:39 2026 +0530
+
+    Add getter methods for Employee fields and update security configuration to permit all requests
+
+[33mcommit 5010439cca9fe5a88be5075eea155c8b576c9946[m
+Merge: 2f365d4 a5d7739
+Author: NaineshIndait1812 <163850475+NaineshIndait1812@users.noreply.github.com>
+Date:   Thu Feb 5 15:25:18 2026 +0530
+
+    Merge pull request #1 from NaineshIndait1812/dev-ruchita
+    
+    Add employee auth, employee APIs, and security config
+
+[33mcommit a5d77396f526f23254f9fe96ff7c30a1eca5a6f8[m
+Author: ruchitajadhav27 <jadhavruchita27@gmail.com>
+Date:   Thu Feb 5 15:18:42 2026 +0530
+
+    Add employee auth, employee APIs, and security config
+
+[33mcommit 2f365d4a4243bb2d5371224d839bc2db1f0e0818[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: NaineshIndait1812 <naineshindait18@gmail.com>
+Date:   Wed Feb 4 17:14:46 2026 +0530
+
+    Initial backend setup
