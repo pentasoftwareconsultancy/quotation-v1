@@ -37,6 +37,9 @@ public class PasswordResetService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private static final int TOKEN_EXPIRY_MINUTES = 15;
@@ -190,7 +193,7 @@ public class PasswordResetService {
             helper.setTo(employee.getEmail());
             helper.setSubject("Password Reset Request - SmartMatrix");
 
-            String resetUrl = "http://localhost:5173/reset-password?token=" + token;
+            String resetUrl = frontendUrl + "/reset-password?token=" + token;
 
             String emailBody = "<div style='margin:0;padding:32px 16px;background-color:#eef2ff;font-family:Arial,Helvetica,sans-serif;color:#1f2937;'>"
                     + "<table role='presentation' width='100%' cellspacing='0' cellpadding='0' style='max-width:680px;margin:0 auto;background:#ffffff;border-radius:20px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 12px 30px rgba(15,23,42,0.12);'>"

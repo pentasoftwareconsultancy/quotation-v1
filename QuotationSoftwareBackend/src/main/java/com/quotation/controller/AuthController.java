@@ -11,7 +11,7 @@ import com.quotation.repository.AdminRepository;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class AuthController {
 
     private final AdminRepository adminRepository;

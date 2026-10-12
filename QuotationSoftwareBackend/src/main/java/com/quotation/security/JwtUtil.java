@@ -2,6 +2,7 @@ package com.quotation.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -10,11 +11,13 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "mysecretkeymysecretkeymysecretkey123";
+    @Value("${security.jwt.secret}")
+    private String secretKey;
+
     private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hour
 
     private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public String generateToken(String username) {

@@ -12,7 +12,7 @@ import com.quotation.repository.AdminRepository;
 
 @RestController
 @RequestMapping("/api/admin")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "${app.cors.allowed-origin}")
 public class AdminController {
 
     private final AdminRepository adminRepository;

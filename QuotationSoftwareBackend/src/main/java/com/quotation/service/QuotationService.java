@@ -15,6 +15,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import java.util.List;
@@ -22,8 +23,8 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate; 
-import java.time.format.DateTimeFormatter; 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class QuotationService {
@@ -33,9 +34,12 @@ public class QuotationService {
 
     @Autowired
     private JavaMailSender mailSender;
-    
+
     @Autowired
     private NotificationService notificationService;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
  // Inside QuotationService.java
 
@@ -194,8 +198,8 @@ public class QuotationService {
             helper.setTo(quotation.getClientEmail());
             helper.setSubject("Approval Required: " + quotation.getProject());
 
-            String approveUrl = "http://localhost:8080/api/quotations/approve?token=" + token;
-            String rejectUrl  = "http://localhost:8080/api/quotations/reject?token=" + token;
+            String approveUrl = baseUrl + "/api/quotations/approve?token=" + token;
+            String rejectUrl  = baseUrl + "/api/quotations/reject?token=" + token;
 
             double displayAmount = quotation.getTotalCost();
 
