@@ -12,7 +12,7 @@ const EmployeeQuotationList = () => {
       const empId = localStorage.getItem("empId");
 
       const res = await fetch(
-        `http://localhost:8080/api/quotations/employee/${empId}`
+        `https://quotation-v1-y2m6.onrender.com/api/quotations/employee/${empId}`
       );
 
       const data = await res.json();

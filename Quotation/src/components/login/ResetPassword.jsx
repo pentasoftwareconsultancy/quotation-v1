@@ -27,7 +27,7 @@ const ResetPassword = () => {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/api/auth/validate-reset-token?token=${encodeURIComponent(token)}`
+          `https://quotation-v1-y2m6.onrender.com/api/auth/validate-reset-token?token=${encodeURIComponent(token)}`
         );
 
         if (response.ok) {
@@ -87,7 +87,7 @@ const ResetPassword = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/reset-password', {
+      const response = await fetch('https://quotation-v1-y2m6.onrender.com/api/auth/reset-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -35,12 +35,12 @@ const EmployeePanel = () => {
 
       // STEP 1: Trigger the generation of reminder notifications on the server
       // This MUST happen before we fetch the list below
-      await fetch(`http://localhost:8080/api/quotations/trigger-reminders/${empId}`, {
+      await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/trigger-reminders/${empId}`, {
         method: 'GET' // or POST depending on your backend
       });
 
       // STEP 2: Fetch the actual notification list
-      const res = await fetch(`http://localhost:8080/api/notifications/employee/${empId}`);
+      const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/employee/${empId}`);
       if (!res.ok) return;
 
       const incoming = await res.json();
@@ -80,7 +80,7 @@ const EmployeePanel = () => {
 
     const empId = localStorage.getItem("empId");
     if (empId) {
-      fetch(`http://localhost:8080/api/notifications/mark-read/${empId}`, {
+      fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/mark-read/${empId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" }
       }).catch((err) => console.error("Backend update failed", err));

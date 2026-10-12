@@ -34,7 +34,7 @@ const EmployeeManagement = () => {
 
   const fetchEmployees = async () => {
     try {
-      const res = await fetch("http://localhost:8080/api/admin/employees");
+      const res = await fetch("https://quotation-v1-y2m6.onrender.com/api/admin/employees");
       const data = await res.json();
       setEmployees(data);
     } catch (err) {
@@ -92,7 +92,7 @@ const handleEditEmployee = (employee) => {
     setPasswordHistory([]);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/admin/employees/${employee.id}/password-history`);
+      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/admin/employees/${employee.id}/password-history`);
       if (response.ok) {
         const data = await response.json();
         setPasswordHistory(Array.isArray(data) ? data : []);
@@ -117,8 +117,8 @@ const handleEditEmployee = (employee) => {
   const isEdit = currentView === "edit";
 
     const url = isEdit
-      ? `http://localhost:8080/api/admin/employees/${selectedEmployee.id}`
-      : "http://localhost:8080/api/admin/employees";
+      ? `https://quotation-v1-y2m6.onrender.com/api/admin/employees/${selectedEmployee.id}`
+      : "https://quotation-v1-y2m6.onrender.com/api/admin/employees";
 
     const method = isEdit ? "PUT" : "POST";
 
@@ -168,7 +168,7 @@ const handleEditEmployee = (employee) => {
   // ✅ DELETE FROM BACKEND
 const deleteEmployee = async (id) => {
   try {
-    await fetch(`http://localhost:8080/api/admin/employees/${id}`, {
+    await fetch(`https://quotation-v1-y2m6.onrender.com/api/admin/employees/${id}`, {
       method: "DELETE"
     });
 

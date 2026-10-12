@@ -17,7 +17,7 @@ const MyClients = ({ onCreateQuotation }) => {
 
   // ✅ Fetch ALL clients added by Admin
   useEffect(() => {
-    fetch("http://localhost:8080/api/clients")
+    fetch("https://quotation-v1-y2m6.onrender.com/api/clients")
       .then(res => res.json())
       .then(data => setClients(data))
       .catch(err => console.error(err));
@@ -26,7 +26,7 @@ const MyClients = ({ onCreateQuotation }) => {
   // ✅ Add client (Employee can also add)
   const handleAddClient = async () => {
     console.log("Sending to Backend:", newClient);
-    const response = await fetch("http://localhost:8080/api/clients", {
+    const response = await fetch("https://quotation-v1-y2m6.onrender.com/api/clients", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newClient)

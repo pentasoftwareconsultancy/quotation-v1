@@ -16,7 +16,7 @@ const ClientManagement = () => {
   const statusFilters = ['All', 'Active', 'Inactive'];
 
 useEffect(() => {
-  fetch("http://localhost:8080/api/clients")
+  fetch("https://quotation-v1-y2m6.onrender.com/api/clients")
     .then(res => res.json())
     .then(data => setClients(data))
     .catch(err => console.error(err));
@@ -42,7 +42,7 @@ useEffect(() => {
   };
 
 const handleAddClient = async () => {
-  const response = await fetch("http://localhost:8080/api/clients", {
+  const response = await fetch("https://quotation-v1-y2m6.onrender.com/api/clients", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(newClient)
@@ -57,7 +57,7 @@ const handleAddClient = async () => {
 
 
 const handleStatusUpdate = async (clientId, newStatus) => {
-  await fetch(`http://localhost:8080/api/clients/${clientId}`, {
+  await fetch(`https://quotation-v1-y2m6.onrender.com/api/clients/${clientId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ status: newStatus })
@@ -73,7 +73,7 @@ const handleStatusUpdate = async (clientId, newStatus) => {
 };
 
 const handleDelete = async (clientId) => {
-  await fetch(`http://localhost:8080/api/clients/${clientId}`, {
+  await fetch(`https://quotation-v1-y2m6.onrender.com/api/clients/${clientId}`, {
     method: "DELETE"
   });
 

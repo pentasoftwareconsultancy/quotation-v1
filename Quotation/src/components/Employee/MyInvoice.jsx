@@ -22,7 +22,7 @@ const MyInvoice = () => {
   const fetchMyInvoices = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/invoices/employee/id/${currentEmpId}`);
+      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/employee/id/${currentEmpId}`);
       if (response.ok) {
         const data = await response.json();
         setInvoices(data);
@@ -68,7 +68,7 @@ const MyInvoice = () => {
 
   const handleStatusUpdate = async (invoiceId, newStatus) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/invoices/update-status/${invoiceId}`, {
+      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/update-status/${invoiceId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),

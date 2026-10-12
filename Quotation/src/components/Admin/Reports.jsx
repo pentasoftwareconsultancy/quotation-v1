@@ -16,10 +16,10 @@ const Reports = () => {
   const fetchData = async () => {
     try {
       const [qRes, eRes, cRes, iRes] = await Promise.all([
-        fetch('http://localhost:8080/api/quotations'),
-        fetch('http://localhost:8080/api/admin/employees'),
-        fetch('http://localhost:8080/api/clients'),
-        fetch('http://localhost:8080/api/invoices/all-invoices') // ✅ NEW
+        fetch('https://quotation-v1-y2m6.onrender.com/api/quotations'),
+        fetch('https://quotation-v1-y2m6.onrender.com/api/admin/employees'),
+        fetch('https://quotation-v1-y2m6.onrender.com/api/clients'),
+        fetch('https://quotation-v1-y2m6.onrender.com/api/invoices/all-invoices') // ✅ NEW
       ]);
 
       const qData = await qRes.json();

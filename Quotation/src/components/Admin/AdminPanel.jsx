@@ -33,10 +33,10 @@
         const triggerId = "ADMIN"; 
 
         // 1. Trigger backend for ALL reminders
-        await fetch(`http://localhost:8080/api/quotations/trigger-reminders/${triggerId}`);
+        await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/trigger-reminders/${triggerId}`);
 
         // 2. Fetch notifications for Admin
-        const res = await fetch(`http://localhost:8080/api/notifications/admin`);
+        const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/admin`);
         if (!res.ok) return;
         const incoming = await res.json();
 
@@ -68,7 +68,7 @@
       useEffect(() => {
         const fetchPendingCount = async () => {
           try {
-            const res = await fetch("http://localhost:8080/api/quotations");
+            const res = await fetch("https://quotation-v1-y2m6.onrender.com/api/quotations");
             if (!res.ok) return;
             const quotations = await res.json();
             const pendingCount = quotations.filter(q => q.status === "Pending").length;
@@ -109,7 +109,7 @@ const markAllAsRead = () => {
   setNotifications(prev => prev.map(n => ({ ...n, read: true })));
 
   // Persist to database
-  fetch("http://localhost:8080/api/notifications/mark-read/ADMIN", {
+  fetch("https://quotation-v1-y2m6.onrender.com/api/notifications/mark-read/ADMIN", {
     method: "POST",
   }).catch((err) => console.error("Failed to mark read", err));
 };

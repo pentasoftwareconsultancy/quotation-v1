@@ -24,7 +24,7 @@ const AllNotifications = ({ notifications, setNotifications }) => {
       return;
     }
     try {
-      const res = await fetch(`http://localhost:8080/api/notifications/delete/${id}`, {
+      const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/delete/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -41,7 +41,7 @@ const AllNotifications = ({ notifications, setNotifications }) => {
     setIsDeletingAll(true);
     const empId = localStorage.getItem("empId") || "ADMIN";
     try {
-      const res = await fetch(`http://localhost:8080/api/notifications/delete-all/${empId}`, {
+      const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/delete-all/${empId}`, {
         method: "DELETE",
       });
       if (res.ok) {

@@ -27,7 +27,7 @@ const handlePhotoChange = async (e) => {
   reader.onloadend = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8080/api/employee/profile/photo/${empId}`,
+        `https://quotation-v1-y2m6.onrender.com/api/employee/profile/photo/${empId}`,
         {
           method: "PUT",
           headers: {
@@ -53,7 +53,7 @@ const handlePhotoChange = async (e) => {
   const handleSave = async () => {
   try {
     const res = await 
-      fetch(`http://localhost:8080/api/employee/profile/update/${empId}`,
+      fetch(`https://quotation-v1-y2m6.onrender.com/api/employee/profile/update/${empId}`,
 
       {
         method: "PUT",
@@ -108,7 +108,7 @@ const handleChangePassword = async () => {
 
   try {
     const res = await fetch(
-      `http://localhost:8080/api/employee/profile/change-password/${empId}`,
+      `https://quotation-v1-y2m6.onrender.com/api/employee/profile/change-password/${empId}`,
       {
         method: "POST",
         headers: {
@@ -164,7 +164,7 @@ const handleChangePassword = async () => {
   useEffect(() => {
     if (!empId) return;
 
-    fetch(`http://localhost:8080/api/employee/profile/${empId}`)
+    fetch(`https://quotation-v1-y2m6.onrender.com/api/employee/profile/${empId}`)
       .then(res => {
         if (!res.ok) {
           throw new Error("Profile not found");

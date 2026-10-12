@@ -24,7 +24,7 @@ const MyQuotations = ({ onEdit }) => {
   const fetchMyQuotations = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/quotations/employee/id/${currentEmpId}`);
+      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/employee/id/${currentEmpId}`);
       if (response.ok) {
         const data = await response.json();
         setQuotations(data);
@@ -140,7 +140,7 @@ const MyQuotations = ({ onEdit }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:8080/api/quotations/${quote.id}`);
+      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/${quote.id}`);
       if (!response.ok) {
         return;
       }

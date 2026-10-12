@@ -119,7 +119,7 @@ const CreateQuotation = ({ selectedClient, editData }) => {
 
       // 🔥 FETCH ORGANIZATION IF MISSING
       if (!editData.clientOrganization && editData.client) {
-        fetch(`http://localhost:8080/api/clients`)
+        fetch(`https://quotation-v1-y2m6.onrender.com/api/clients`)
           .then(res => res.json())
           .then(data => {
             const matchedClient = data.find(
@@ -213,7 +213,7 @@ const CreateQuotation = ({ selectedClient, editData }) => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:8080/api/quotations", {
+      const response = await fetch("https://quotation-v1-y2m6.onrender.com/api/quotations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

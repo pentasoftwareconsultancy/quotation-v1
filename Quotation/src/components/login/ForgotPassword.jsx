@@ -19,7 +19,7 @@ const ForgotPassword = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/forgot-password', {
+      const response = await fetch('https://quotation-v1-y2m6.onrender.com/api/auth/forgot-password', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

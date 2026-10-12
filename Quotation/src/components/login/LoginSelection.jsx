@@ -20,7 +20,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       : { employeeId: formData.employeeId, password: formData.password };
 
     try {
-      const res = await fetch(`http://localhost:8080/api/${endpoint}`, {
+      const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
