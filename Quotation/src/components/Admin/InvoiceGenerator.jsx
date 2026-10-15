@@ -16,7 +16,7 @@ const InvoiceGenerator = () => {
   const fetchAllInvoices = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/all-invoices`);
+      const response = await fetch(`http://localhost:8080/api/invoices/all-invoices`);
       if (response.ok) {
         const data = await response.json();
         setInvoices(data);
@@ -62,7 +62,7 @@ const InvoiceGenerator = () => {
 
   const handleStatusUpdate = async (invoiceId, newStatus) => {
     try {
-      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/update-status/${invoiceId}`, {
+      const response = await fetch(`http://localhost:8080/api/invoices/update-status/${invoiceId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
@@ -89,7 +89,7 @@ const InvoiceGenerator = () => {
     }
 
     try {
-      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/delete/${targetId}`, {
+      const response = await fetch(`http://localhost:8080/api/invoices/delete/${targetId}`, {
         method: 'DELETE',
       });
 

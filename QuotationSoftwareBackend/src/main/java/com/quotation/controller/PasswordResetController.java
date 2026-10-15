@@ -10,7 +10,6 @@ import com.quotation.dto.ResetPasswordRequest;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin
 public class PasswordResetController {
 
     private final PasswordResetService passwordResetService;

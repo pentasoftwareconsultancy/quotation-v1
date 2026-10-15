@@ -16,8 +16,8 @@ const ClientInfoModal = ({ client, onClose }) => {
         console.log('📱 Employee ID:', currentEmpId);
         
         // Fetch ALL quotations for employee and filter by client
-        console.log('📋 Fetching quotations from:', `https://quotation-v1-y2m6.onrender.com/api/quotations/employee/id/${currentEmpId}`);
-        let quotationsResponse = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/employee/id/${currentEmpId}`);
+        console.log('📋 Fetching quotations from:', `http://localhost:8080/api/quotations/employee/id/${currentEmpId}`);
+        let quotationsResponse = await fetch(`http://localhost:8080/api/quotations/employee/id/${currentEmpId}`);
         let allQuotations = [];
         
         if (quotationsResponse.ok) {
@@ -26,7 +26,7 @@ const ClientInfoModal = ({ client, onClose }) => {
         } else {
           console.warn('⚠️ Employee quotations endpoint failed, trying all quotations');
           // Fallback: Get all quotations
-          const fallbackResponse = await fetch('https://quotation-v1-y2m6.onrender.com/api/quotations');
+          const fallbackResponse = await fetch('http://localhost:8080/api/quotations');
           if (fallbackResponse.ok) {
             allQuotations = await fallbackResponse.json();
             console.log('✅ All quotations fetched from general endpoint:', allQuotations);
@@ -41,8 +41,8 @@ const ClientInfoModal = ({ client, onClose }) => {
         setClientQuotations(filteredQuotations);
 
         // Fetch ALL invoices for employee and filter by client
-        console.log('💰 Fetching invoices from:', `https://quotation-v1-y2m6.onrender.com/api/invoices/employee/id/${currentEmpId}`);
-        let invoicesResponse = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/employee/id/${currentEmpId}`);
+        console.log('💰 Fetching invoices from:', `http://localhost:8080/api/invoices/employee/id/${currentEmpId}`);
+        let invoicesResponse = await fetch(`http://localhost:8080/api/invoices/employee/id/${currentEmpId}`);
         let allInvoices = [];
         
         if (invoicesResponse.ok) {
@@ -51,7 +51,7 @@ const ClientInfoModal = ({ client, onClose }) => {
         } else {
           console.warn('⚠️ Employee invoices endpoint failed, trying all invoices');
           // Fallback: Get all invoices
-          const fallbackResponse = await fetch('https://quotation-v1-y2m6.onrender.com/api/invoices');
+          const fallbackResponse = await fetch('http://localhost:8080/api/invoices');
           if (fallbackResponse.ok) {
             allInvoices = await fallbackResponse.json();
             console.log('✅ All invoices fetched from general endpoint:', allInvoices);
@@ -61,7 +61,7 @@ const ClientInfoModal = ({ client, onClose }) => {
         // Try to fetch invoices directly by client ID (if API supports it)
         console.log('🔄 Attempting to fetch invoices by client ID...');
         try {
-          const clientInvoicesResponse = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/by-client/${client.id}`);
+          const clientInvoicesResponse = await fetch(`http://localhost:8080/api/invoices/by-client/${client.id}`);
           if (clientInvoicesResponse.ok) {
             const clientSpecificInvoices = await clientInvoicesResponse.json();
             console.log('✅ Invoices fetched by client ID directly:', clientSpecificInvoices);

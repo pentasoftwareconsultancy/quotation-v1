@@ -30,7 +30,7 @@ const deleteNotification = async (id) => {
     // 1. Log the ID to your console to see if it's a string or an object
     console.log("Attempting to delete ID:", id); 
 
-    const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/delete/${id}`, {
+    const res = await fetch(`http://localhost:8080/api/notifications/delete/${id}`, {
       method: "DELETE",
     });
     
@@ -53,7 +53,7 @@ const deleteNotification = async (id) => {
     const empId = localStorage.getItem("empId");
     
     try {
-      const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/notifications/delete-all/${empId}`, {
+      const res = await fetch(`http://localhost:8080/api/notifications/delete-all/${empId}`, {
         method: "DELETE",
       });
       if (res.ok) {

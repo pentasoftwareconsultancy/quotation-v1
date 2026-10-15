@@ -12,7 +12,7 @@ const EditProfile = () => {
 
   // ✅ LOAD ADMIN USERNAME
   useEffect(() => {
-    fetch(`https://quotation-v1-y2m6.onrender.com/api/admin/profile/${loggedInUsername}`)
+    fetch(`http://localhost:8080/api/admin/profile/${loggedInUsername}`)
       .then(res => {
         if (!res.ok) throw new Error("Admin not found");
         return res.json();
@@ -31,7 +31,7 @@ const EditProfile = () => {
     }
 
     const response = await fetch(
-      `https://quotation-v1-y2m6.onrender.com/api/admin/update-credentials/${loggedInUsername}`,
+      `http://localhost:8080/api/admin/update-credentials/${loggedInUsername}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

@@ -16,7 +16,7 @@ const AdminClientInfoModal = ({ client, onClose }) => {
         // ✅ Fetch ALL quotations
         let allQuotations = [];
         try {
-          const quotResponse = await fetch('https://quotation-v1-y2m6.onrender.com/api/quotations');
+          const quotResponse = await fetch('http://localhost:8080/api/quotations');
           if (quotResponse.ok) {
             const text = await quotResponse.text();
             if (text && text.trim() !== '') {
@@ -44,7 +44,7 @@ const AdminClientInfoModal = ({ client, onClose }) => {
         
         try {
           // Try direct client invoice endpoint first
-          const invResponse = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/by-client/${clientIdToUse}`);
+          const invResponse = await fetch(`http://localhost:8080/api/invoices/by-client/${clientIdToUse}`);
           if (invResponse.ok) {
             const text = await invResponse.text();
             if (text && text.trim() !== '') {
@@ -59,7 +59,7 @@ const AdminClientInfoModal = ({ client, onClose }) => {
         // Fallback: Fetch all invoices using /all-invoices endpoint
         if (allInvoices.length === 0) {
           try {
-            const invResponse = await fetch('https://quotation-v1-y2m6.onrender.com/api/invoices/all-invoices');
+            const invResponse = await fetch('http://localhost:8080/api/invoices/all-invoices');
             if (invResponse.ok) {
               const text = await invResponse.text();
               if (text && text.trim() !== '') {

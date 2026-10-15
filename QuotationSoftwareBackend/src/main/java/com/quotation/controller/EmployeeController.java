@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/admin/employees")
-@CrossOrigin
 public class EmployeeController {
 
     private final EmployeeRepository repo;

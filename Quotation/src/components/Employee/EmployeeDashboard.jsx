@@ -69,10 +69,10 @@ const EmployeeDashboard = ({ onCreateQuotation }) => {
   useEffect(() => {
     const loadEmployeeDashboard = async () => {
       try {
-        const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/employee/id/${currentEmpId}`);
+        const res = await fetch(`http://localhost:8080/api/quotations/employee/id/${currentEmpId}`);
         const quotations = await res.json();
 
-        const clientRes = await fetch("https://quotation-v1-y2m6.onrender.com/api/clients");
+        const clientRes = await fetch("http://localhost:8080/api/clients");
         let clients = [];
         if (clientRes.ok) {
           clients = await clientRes.json();

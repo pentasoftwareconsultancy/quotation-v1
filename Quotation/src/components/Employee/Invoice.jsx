@@ -109,7 +109,7 @@ const Invoice = () => {
   const fetchAdjustmentBucket = async (quotationId) => {
     try {
       const response = await fetch(
-        `https://quotation-v1-y2m6.onrender.com/api/quotations/${encodeURIComponent(quotationId)}`
+        `http://localhost:8080/api/quotations/${encodeURIComponent(quotationId)}`
       );
       if (!response.ok) return 0;
 
@@ -220,7 +220,7 @@ const Invoice = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const empResponse = await fetch(`https://quotation-v1-y2m6.onrender.com/api/admin/employees/id/${currentEmpId}`);
+        const empResponse = await fetch(`http://localhost:8080/api/admin/employees/id/${currentEmpId}`);
         if (empResponse.ok) {
           const empData = await empResponse.json();
           if (empData.name) {
@@ -229,7 +229,7 @@ const Invoice = () => {
           }
         }
 
-        const quotResponse = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/employee/id/${currentEmpId}`);
+        const quotResponse = await fetch(`http://localhost:8080/api/quotations/employee/id/${currentEmpId}`);
         if (quotResponse.ok) {
           const quotData = await quotResponse.json();
           const approved = quotData
@@ -244,7 +244,7 @@ const Invoice = () => {
 
           const quotationIds = approved.map(q => q.quotationNumber || q.id);
           if (quotationIds.length > 0) {
-            const summaryResponse = await fetch('https://quotation-v1-y2m6.onrender.com/api/invoices/payment-summaries', {
+            const summaryResponse = await fetch('http://localhost:8080/api/invoices/payment-summaries', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(quotationIds)
@@ -303,7 +303,7 @@ const Invoice = () => {
   let totalAlreadyPaid = 0;
   let invoicesCount = 0;
   try {
-    const res = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/by-quotation/${encodeURIComponent(quotationId)}`);
+    const res = await fetch(`http://localhost:8080/api/invoices/by-quotation/${encodeURIComponent(quotationId)}`);
     if (res.ok) {
       const existingInvoices = await res.json();
       invoicesCount = existingInvoices.length;
@@ -408,7 +408,7 @@ const Invoice = () => {
         actualPaidAmount: actualAmount || getPlannedAmount()
       };
 
-      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/invoices/create`, {
+      const response = await fetch(`http://localhost:8080/api/invoices/create`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json' 

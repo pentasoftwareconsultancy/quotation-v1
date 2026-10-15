@@ -222,7 +222,7 @@ const QuotationPreview = ({ formData, onClose }) => {
       setIsSending(true);
 
       const response = await fetch(
-        `https://quotation-v1-y2m6.onrender.com/api/quotations/${formData.id}/send-to-admin`,
+        `http://localhost:8080/api/quotations/${formData.id}/send-to-admin`,
         {
           method: "POST",
           headers: {
@@ -266,7 +266,7 @@ const QuotationPreview = ({ formData, onClose }) => {
       setIsSending(true);
 
       const response = await fetch(
-        `https://quotation-v1-y2m6.onrender.com/api/quotations/${formData.id}/send-approval-pdf`,
+        `http://localhost:8080/api/quotations/${formData.id}/send-approval-pdf`,
         {
           method: "POST",
           body: data,

@@ -8,7 +8,6 @@ import com.quotation.service.EmployeeAuthService;
 
 @RestController
 @RequestMapping("/api/employee/auth")
-@CrossOrigin
 public class EmployeeAuthController {
 
     private final EmployeeAuthService employeeAuthService;

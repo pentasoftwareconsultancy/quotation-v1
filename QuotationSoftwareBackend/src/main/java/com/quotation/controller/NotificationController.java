@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/notifications")
-@CrossOrigin(origins = "${app.cors.allowed-origin}") // Allow React to connect
 public class NotificationController {
     @Autowired
     private NotificationService service;

@@ -12,7 +12,6 @@ import com.quotation.repository.EmployeeRepository;
 
 @RestController
 @RequestMapping("/api/employee/profile")
-@CrossOrigin
 public class EmployeeProfileController {
 
     private final EmployeeRepository employeeRepository;

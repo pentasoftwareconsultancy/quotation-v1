@@ -23,7 +23,7 @@ const QuotationManagement = () => {
   const fetchQuotations = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://quotation-v1-y2m6.onrender.com/api/quotations");
+      const response = await fetch("http://localhost:8080/api/quotations");
       if (!response.ok) throw new Error("Failed to fetch quotations");
       const data = await response.json();
       setQuotations(data);
@@ -98,7 +98,7 @@ const QuotationManagement = () => {
   const handleAction = async (quote, action) => {
     if (action === 'view') {
       try {
-        const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/${quote.id}`);
+        const response = await fetch(`http://localhost:8080/api/quotations/${quote.id}`);
         const fullData = await response.json();
         setSelectedQuote(fullData);
       } catch (error) {
@@ -117,7 +117,7 @@ const updateQuotationStatus = async (quotationId, newStatus) => {
   const formattedDate = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}/${today.getFullYear()} ${String(today.getHours()).padStart(2, '0')}:${String(today.getMinutes()).padStart(2, '0')}`;
 
   try {
-    const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/${quotationId}`, {
+    const response = await fetch(`http://localhost:8080/api/quotations/${quotationId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
@@ -139,7 +139,7 @@ const updateQuotationStatus = async (quotationId, newStatus) => {
 
   const handleDelete = async (quoteId) => {
     try {
-      const response = await fetch(`https://quotation-v1-y2m6.onrender.com/api/quotations/${quoteId}`, {
+      const response = await fetch(`http://localhost:8080/api/quotations/${quoteId}`, {
         method: "DELETE",
       });
 
