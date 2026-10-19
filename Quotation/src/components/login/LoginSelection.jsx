@@ -1,39 +1,80 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../../utils/apiFetch';
+import { classifyLoginResponse } from '../../utils/loginResponse';
 
 const LoginModal = ({ isOpen, onClose }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [formData, setFormData] = useState({ username: '', employeeId: '', password: '' });
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setIsAdmin(false);
       setFormData({ username: '', employeeId: '', password: '' });
+      setError("");
+      setIsSubmitting(false);
     }
   }, [isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
     const endpoint = isAdmin ? "auth/login" : "employee/auth/login";
     const payload = isAdmin 
       ? { username: formData.username, password: formData.password }
-      : { employeeId: formData.employeeId, password: formData.password };
+      : { employeeId: formData.employeeId.trim(), password: formData.password };
 
+    if ((isAdmin ? !payload.username.trim() : !payload.employeeId) || !payload.password) {
+      setError(isAdmin
+        ? "Enter your admin username and password."
+        : "Enter your employee ID and password.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("empId");
+    sessionStorage.removeItem("otpChallengeId");
+    sessionStorage.removeItem("pendingEmployeeId");
     try {
-      const res = await fetch(`http://localhost:8080/api/${endpoint}`, {
+      const res = await apiFetch(`/api/${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
-      const data = await res.json();
-      if (res.ok && data.token) {
-        localStorage.setItem("token", data.token);
-        if (!isAdmin) localStorage.setItem("empId", formData.employeeId);
-        window.location.href = isAdmin ? "/admin" : "/employee";
-      } else {
-        setError("Invalid username or password");
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {
+        data = null;
       }
-    } catch (err) { setError("Something went wrong. Please try again."); }
+      const outcome = classifyLoginResponse({
+        isAdmin,
+        ok: res.ok,
+        status: res.status,
+        data
+      });
+
+      if (outcome.type === "admin-authenticated") {
+        localStorage.setItem("token", outcome.token);
+        window.location.href = "/admin";
+      } else if (outcome.type === "otp-challenge") {
+        sessionStorage.setItem("otpChallengeId", outcome.challengeId);
+        sessionStorage.setItem("pendingEmployeeId", payload.employeeId);
+        sessionStorage.setItem("otpMaskedDestination", outcome.maskedDestination);
+        sessionStorage.setItem("otpExpiresInSeconds", String(outcome.expiresInSeconds));
+        sessionStorage.setItem("otpResendAfterSeconds", String(outcome.resendAfterSeconds));
+        window.location.href = "/verify-otp";
+      } else {
+        setError(outcome.message);
+      }
+    } catch {
+      setError("Unable to connect right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleForgotPassword = () => {
@@ -74,7 +115,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           {/* LEFT SIDE: ADMIN FORM */}
           <div className={`w-1/2 h-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${isAdmin ? 'translate-x-0 opacity-100' : 'translate-x-[20%] opacity-0 pointer-events-none'}`}>
   
-            <form onSubmit={handleSubmit} className="w-full max-w-[340px] flex flex-col items-center">
+            <form onSubmit={handleSubmit} noValidate className="w-full max-w-[340px] flex flex-col items-center">
 
               {/* Title */}
               <h2 className="text-3xl font-bold text-gray-900 mb-1 tracking-tight">
@@ -101,15 +142,15 @@ const LoginModal = ({ isOpen, onClose }) => {
                 </div>
               )}
               
-              <input type="text" placeholder="Username" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-3 outline-none focus:ring-2 focus:ring-[#c33764]/30 transition-all text-sm" 
+              <input type="text" required autoComplete="username" placeholder="Username" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-3 outline-none focus:ring-2 focus:ring-[#c33764]/30 transition-all text-sm"
                 value={formData.username} onChange={(e) => {setFormData({...formData, username: e.target.value}); setError("");}} />
               
-              <input type="password" placeholder="Password" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-6 outline-none focus:ring-2 focus:ring-[#c33764]/30 transition-all text-sm" 
+              <input type="password" required autoComplete="current-password" placeholder="Password" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-6 outline-none focus:ring-2 focus:ring-[#c33764]/30 transition-all text-sm"
                 value={formData.password} onChange={(e) => {setFormData({...formData, password: e.target.value}); setError("");}} />
               
               {/* CROSS COLORED: Admin uses Blue theme */}
-              <button type="submit" className="w-full bg-gradient-to-r from-[#4e54c8] to-[#c326c8] text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-indigo-100 hover:opacity-90 active:scale-95 transition-all text-base">
-                Sign In
+              <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-[#4e54c8] to-[#c326c8] text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-indigo-100 hover:opacity-90 active:scale-95 transition-all text-base disabled:cursor-not-allowed disabled:opacity-60">
+                {isSubmitting ? "Signing in..." : "Sign In"}
               </button>
             </form>
           </div>
@@ -117,7 +158,7 @@ const LoginModal = ({ isOpen, onClose }) => {
           {/* RIGHT SIDE: EMPLOYEE FORM */}
           <div className={`w-1/2 h-full flex flex-col items-center justify-center transition-all duration-700 ease-in-out ${!isAdmin ? 'translate-x-0 opacity-100' : 'translate-x-[-20%] opacity-0 pointer-events-none'}`}>
   
-            <form onSubmit={handleSubmit} className="w-full max-w-[340px] flex flex-col items-center">
+            <form onSubmit={handleSubmit} noValidate className="w-full max-w-[340px] flex flex-col items-center">
 
               {/* Title */}
               <h2 className="text-3xl font-bold text-gray-900 mb-1 tracking-tight">
@@ -144,18 +185,18 @@ const LoginModal = ({ isOpen, onClose }) => {
                 </div>
               )}
               
-              <input type="text" placeholder="Employee ID" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-3 outline-none focus:ring-2 focus:ring-[#4e54c8]/30 transition-all text-sm" 
+              <input type="text" required autoComplete="username" placeholder="Employee ID" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-3 outline-none focus:ring-2 focus:ring-[#4e54c8]/30 transition-all text-sm"
                 value={formData.employeeId} onChange={(e) => {setFormData({...formData, employeeId: e.target.value}); setError("");}} />
               
-              <input type="password" placeholder="Password" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-6 outline-none focus:ring-2 focus:ring-[#4e54c8]/30 transition-all text-sm" 
+              <input type="password" required autoComplete="current-password" placeholder="Password" className="w-full bg-gray-50 border border-gray-100 px-5 py-3.5 rounded-xl mb-6 outline-none focus:ring-2 focus:ring-[#4e54c8]/30 transition-all text-sm"
                 value={formData.password} onChange={(e) => {setFormData({...formData, password: e.target.value}); setError("");}} />
               <button type="button" onClick={handleForgotPassword} className="text-xs text-[#4e54c8] hover:text-[#c326c8] mb-4 font-semibold transition-colors">
                 Forgot Password?
               </button>
               
               {/* CROSS COLORED: Employee uses Pink/Red theme */}
-              <button type="submit" className="w-full bg-gradient-to-r from-[#c33764] to-[#1d2671] text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-pink-100 hover:opacity-90 active:scale-95 transition-all text-base">
-                Sign In
+              <button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-[#c33764] to-[#1d2671] text-white py-4 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-pink-100 hover:opacity-90 active:scale-95 transition-all text-base disabled:cursor-not-allowed disabled:opacity-60">
+                {isSubmitting ? "Signing in..." : "Sign In"}
               </button>
             </form>
           </div>

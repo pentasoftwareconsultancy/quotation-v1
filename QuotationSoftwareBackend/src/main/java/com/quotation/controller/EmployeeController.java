@@ -2,7 +2,10 @@ package com.quotation.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.quotation.model.Employee;
 import com.quotation.repository.EmployeeRepository;
@@ -11,10 +14,12 @@ import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/admin/employees")
+@CrossOrigin
 public class EmployeeController {
 
     private final EmployeeRepository repo;
     private final PasswordResetService passwordResetService;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public EmployeeController(EmployeeRepository repo, PasswordResetService passwordResetService) {
         this.repo = repo;
@@ -24,6 +29,10 @@ public class EmployeeController {
     // CREATE
     @PostMapping
     public Employee addEmployee(@RequestBody Employee emp) {
+        if (emp.getPassword() == null || emp.getPassword().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee password is required.");
+        }
+        emp.setPassword(passwordEncoder.encode(emp.getPassword()));
         return repo.save(emp);
     }
 
@@ -39,8 +48,17 @@ public class EmployeeController {
             @PathVariable String id,
             @RequestBody Employee emp) {
 
-        emp.setId(id);
-        return repo.save(emp);
+        Employee existing = repo.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found."));
+        existing.setName(emp.getName());
+        existing.setEmail(emp.getEmail());
+        existing.setPhone(emp.getPhone());
+        existing.setEmpId(emp.getEmpId());
+        existing.setJoinDate(emp.getJoinDate());
+        existing.setStatus(emp.getStatus());
+        existing.setDepartment(emp.getDepartment());
+        existing.setPhoto(emp.getPhoto());
+        return repo.save(existing);
     }
 
     // DELETE

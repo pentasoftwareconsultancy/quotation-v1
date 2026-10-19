@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom'
 import HomePage from './pages/Homepage/herosec.jsx'
 import Navbar from './components/common/Navbar'
 import Footer from './components/common/Fotter.jsx'
@@ -14,18 +14,27 @@ import ResetPassword from './components/login/ResetPassword'
 import AdminPanel from './components/Admin/AdminPanel'
 import EmployeePanel from './components/Employee/EmployeePanel'
 import CreateQuotation from './components/Employee/CreateQuotation';
+import VerifyOtp from './components/login/VerifyOtp';
 
 function App() {
   return (
     <Router>
       <ScrollToTop />
       <Routes>
-        <Route path="/admin/*" element={<AdminPanel />} />
-        <Route path="/employee/*" element={<EmployeePanel />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="/admin/*" element={<RequireAuth><AdminPanel /></RequireAuth>} />
+        <Route path="/employee/*" element={<RequireAuth><EmployeePanel /></RequireAuth>} />
         <Route path="/*" element={<MainLayout />} />
       </Routes>
     </Router>
   )
+}
+
+function RequireAuth({ children }) {
+  const location = useLocation();
+  return localStorage.getItem("token")
+    ? children
+    : <Navigate to="/login" replace state={{ from: location.pathname }} />;
 }
 
 function MainLayout() {
